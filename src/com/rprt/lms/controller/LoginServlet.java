@@ -32,13 +32,15 @@ public class LoginServlet extends HttpServlet {
 				getServletContext().getRequestDispatcher("/afterlogin.jsp")
 						.forward(request, response);
 			} else {
-				getServletContext().getRequestDispatcher("/login.html")
-						.include(request, response);
-				out.print("Incorrect Login Details");
+				request.setAttribute("error","Invalid username or password please try again");
+		    	 getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
 			}
 		} catch (ServiceNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ServletException();
+			
+		}catch (NullPointerException e) {
+			throw new ServletException();
+			
 		}
 	}
 

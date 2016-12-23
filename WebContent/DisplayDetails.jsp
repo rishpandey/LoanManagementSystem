@@ -35,7 +35,16 @@
 body {
 	font-family: 'Montserrat', sans-serif;
 }
+
+th,td {
+	padding: 5px;
+}
+
+#partialField{
+	visibility:hidden;
+}
 </style>
+
 </head>
 
 <body>
@@ -65,8 +74,7 @@ body {
 					<li><a href="terms.html">Terms and Conditions</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="login.html">Login</a></li>
-					<li><a href="register.html">Register</a></li>
+					<li><a href="logout.jsp">Logout</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -79,7 +87,7 @@ body {
 		<div class="row">
 			<div class="col-md-6 col-sm-12">
 				<h1>Account Summary</h1>
-				<table style="width: 100%">
+				<table cellpadding="10">
 					<tr>
 						<th>LoanFile Number</th>
 						<th>Loan Type</th>
@@ -88,29 +96,32 @@ body {
 						<th>Interest Rate</th>
 						<th>Remaining Loan Amount</th>
 						<th>Sanction Date</th>
+						<th>Pay Loan</th>
 					</tr>
 
 					<%
 						ArrayList<Loan> list = (ArrayList)session.getAttribute("list"); 
 						Iterator<Loan> itr = list.iterator();
+						int i = 0;
 						while(itr.hasNext()){
-							Loan loan=itr.next();
-					
+						Loan loan=itr.next();
 					%>
-						<tr>
-							<td><%=loan.getLoanFileNumber()%></td>
-							<td><%=loan.getLoanType()%></td>
-							<td><%=loan.getLoanTenure()%></td>
-							<td><%=loan.getEMI()%></td>
-							<td><%=loan.getInterestRate()%></td>
-							<td><%=loan.getLoanAmount()%></td>
-							<td><%=loan.getDate()%></td>
-						</tr>
-						</table>
-						<%
-							}
-						%>
-					
+					<tr>
+						<td><%=loan.getLoanFileNumber()%></td>
+						<td><%=loan.getLoanType()%></td>
+						<td><%=loan.getLoanTenure()%></td>
+						<td><%=loan.getEMI()%></td>
+						<td><%=loan.getInterestRate()%></td>
+						<td><%=loan.getLoanAmount()%></td>
+						<td><%=loan.getDate()%></td>
+						<td><form action="payment.html"><button type="submit" value="<%= i %>">Pay!</button></form></td>
+					</tr>
+				<%
+					i++;}
+				%>
+				
+				</table>
+				
 			</div>
 		</div>
 		<!-- /.row -->

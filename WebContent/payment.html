@@ -83,14 +83,15 @@
         <div class="row">
             <div class="col-md-6 col-sm-12">
                 <h3>Pay Loan</h3><br>
-<form>
+<form action="PaymentServlet" method="post">
 <table>
 <tr>
-    
-    <td><input type="RADIO" name="payment" id="payloan" onclick="window.location='afterpayselect.html'">pay loan<br><br>
-        <input type="radio" name="payment" id="partclose" onclick="window.location='afterpayselect.html'">Part Closure<br><br>
-        <input type="radio" name="payment" id="completeclose" onclick="window.location='afterpayselect.html'">Complete Closure<br><br>
-        </td>
+    <td>
+    <input type="RADIO" name="payment" value="payloan" >Pay EMI<br><br>
+        <input type="radio" name="payment" value="partclose" >Part Closure<br><br>
+        <input type="radio" name="payment" value="completeclose">Complete Closure<br><br>
+     <button type="submit">Submit</button>
+     </td>
 </tr>
 
 

@@ -80,12 +80,9 @@
                <h3>Welcome <%= request.getAttribute("username") %></h3>
                     <form action="askloan.html">
                     <h5><input type="submit" name="askloan" value="Apply for Loan" ></h5></form>
-                  
-                    <form action="payment.html">
-                    <h5><input type="submit" name="payment" value="Loan Payment" ></h5></form>
                    	
                     <form action="AccountDetailsServlet" method="post">
-                    <h5><input type="submit" name="accountdetails" value="Account Details"></h5></form>
+                    <h5><input type="submit" name="accountdetails" value="Details and Payment"></h5></form>
             </div>
         </div>
         <!-- /.row -->

@@ -55,11 +55,8 @@ public class ResetPassServlet extends HttpServlet {
 				out.print("Incorrect Answer");
 			}		
 		
-		
-		
 		} catch (ServiceNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ServletException();
 		}
 	}
 

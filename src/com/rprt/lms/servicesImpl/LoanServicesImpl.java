@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.rprt.lms.DAOImpl.DAOServiceImpl;
 import com.rprt.lms.beans.Loan;
+import com.rprt.lms.beans.User;
 import com.rprt.lms.exceptions.ServiceNotFoundException;
 import com.rprt.lms.providers.DAOServicesProvider;
 import com.rprt.lms.services.LoanServices;
@@ -23,7 +24,8 @@ public class LoanServicesImpl implements LoanServices {
 		}
 	}
 
-	public boolean validate(String username, String password) {
+	public boolean validate(String username, String password)
+			throws ServiceNotFoundException, NullPointerException {
 		boolean flag = false;
 		try {
 			if (dao.loginValidate(username, password))
@@ -31,34 +33,50 @@ public class LoanServicesImpl implements LoanServices {
 			else
 				flag = false;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ServiceNotFoundException();
 		}
 		return flag;
 	}
 
-	public int registration(String username, String password, String email,
-			String mobNo, String secQ, String secA) {
-		int flag = dao.regInsert(username, password, email, mobNo, secQ, secA);
+	public int registration(User user) {
+		int flag = dao.regInsert(user);
 		return flag;
 	}
 
-	public int fullClosure(int loanFileId, int amount, int payAmount) {
+	public int fullClosure(int loanFileId, int amount, int payAmount)
+			throws ServiceNotFoundException {
 		int balance = amount - payAmount;
-		dao.updateLoanAmount(loanFileId, balance);
+		try {
+			dao.updateLoanAmount(loanFileId, balance);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			throw new ServiceNotFoundException(
+					" sql exception in full closure ");
+		}
 
 		return balance;
 	}
 
-	public int partialClosure(Integer loanFileId, Integer amount, int payAmount) {
+	public int partialClosure(Integer loanFileId, Integer amount, int payAmount)
+			throws ServiceNotFoundException {
 		int balance = amount - payAmount;
-		dao.updateLoanAmount(loanFileId, balance);
+		try {
+			dao.updateLoanAmount(loanFileId, balance);
+		} catch (SQLException e) {
+			throw new ServiceNotFoundException(
+					" sql exception in partial closure ");
+		}
 		return balance;
 	}
 
-	public int payEmi(Integer loanFileId, Integer amount, int payAmount) {
-		int balance = amount - payAmount;
-		dao.updateLoanAmount(loanFileId, balance);
+	public double payEmi(Integer loanFileId, double amount, double payAmount)
+			throws ServiceNotFoundException {
+		double balance = amount - payAmount;
+		try {
+			dao.updateLoanAmount(loanFileId, balance);
+		} catch (SQLException e) {
+			throw new ServiceNotFoundException(" sql exception in pay Emi ");
+		}
 		return balance;
 	}
 
@@ -97,31 +115,28 @@ public class LoanServicesImpl implements LoanServices {
 
 	}
 
-	
-
 	public int fullClosure(Integer loanFileId, Integer amount, int payAmount) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public boolean application(int loanFileNumber, String firstName,
-			String lastName, int customerAge, String loanType,
-			double interestRate, String gender, String customerAddress,
-			String customerOccupation, int customerIncome,
-			double loanAmount, int loanTenure,String date, String username) {
+	public boolean application(Loan loan, String username) {
 		boolean flag = false;
 		try {
-			if(dao.appInsert( loanFileNumber, firstName,lastName,customerAge,loanType,interestRate,gender,customerAddress,customerOccupation,customerIncome,loanAmount,loanTenure,date, username)) flag = true;
-			else flag = false;
+			if (dao.appInsert(loan, username))
+				flag = true;
+			else
+				flag = false;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return flag;
-		
-		}
-	
-	public boolean questionCheck(String username, String securityQues, String answer,String newPassword) {
+
+	}
+
+	public boolean questionCheck(String username, String securityQues,
+			String answer, String newPassword) throws ServiceNotFoundException {
 		boolean flag = false;
 		try {
 			if (dao.passwordUpdate(username, securityQues, answer, newPassword))
@@ -133,7 +148,7 @@ public class LoanServicesImpl implements LoanServices {
 			e.printStackTrace();
 		}
 		return flag;
-		
+
 	}
-	
+
 }

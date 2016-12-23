@@ -31,12 +31,12 @@ public class AccountDetailsServlet extends HttpServlet {
 		try {
 			LoanServices service = ServicesProvider.getBankServices();
 			list = service.accountSummary(username);
-			
+
 			session.setAttribute("list", list);
-			getServletContext().getRequestDispatcher("/DisplayDetails.jsp").forward(request,response);
+			getServletContext().getRequestDispatcher("/DisplayDetails.jsp")
+					.forward(request, response);
 		} catch (ServiceNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ServletException();
 		}
 	}
 

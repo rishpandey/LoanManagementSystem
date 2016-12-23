@@ -47,9 +47,7 @@ public class RegisterServlet extends HttpServlet {
 		System.out.println(user+" in the servlet");
 		try {
 			LoanServices service = ServicesProvider.getBankServices();
-			int flag = service.registration(user.getUsername(),
-					user.getPassword(), user.getEmail(), user.getMobile(),
-					user.getSecurityQuestion(), user.getAnswer());
+			int flag = service.registration(user);
 			if (flag == 1) {
 				getServletContext().getRequestDispatcher(
 						"/afterregistration.html").forward(request, response);
@@ -67,8 +65,7 @@ public class RegisterServlet extends HttpServlet {
 				out.print("Unknown Error");
 			}
 		} catch (ServiceNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ServletException();
 		}
 	}
 

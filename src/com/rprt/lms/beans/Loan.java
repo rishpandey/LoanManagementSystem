@@ -1,23 +1,24 @@
 package com.rprt.lms.beans;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.text.DecimalFormat;
 import java.util.Date;
 
 public class Loan {
-	static int loanFileNumber = 10000;
-	String loanType = null;
-	int loanTenure = 0;
-	double interestRate = 0;
-	double loanAmount = 0;
-	String customerAddress = null;
-	String firstName = null;
-	String lastName = null;
-	int customerAge = 0;
-	String gender = null;
-	String customerOccupation = null;
-	int customerIncome = 0;
-	String date = null;
+	private static int serial = 100000;
+	private int loanFileNumber = 0;
+	private String loanType = null;
+	private int loanTenure = 0;
+	private double interestRate = 0;
+	private double loanAmount = 0;
+	private String customerAddress = null;
+	private String firstName = null;
+	private String lastName = null;
+	private int customerAge = 0;
+	private String gender = null;
+	private String customerOccupation = null;
+	private int customerIncome = 0;
+	private String date = null;
+	private double remaining_amount = 0;
 
 	public Loan() {
 		super();
@@ -26,9 +27,9 @@ public class Loan {
 	public Loan(String loanType, int loanTenure, double interestRate,
 			double loanAmount, String customerAddress, String firstName,
 			String lastName, int customerAge, String gender,
-			String customerOccupation, int customerIncome, String date) {
+			String customerOccupation, int customerIncome, String date, double remaining_amount) {
 		super();
-		loanFileNumber++;
+		this.loanFileNumber = serial;
 		this.loanType = loanType;
 		this.loanTenure = loanTenure;
 		this.interestRate = interestRate;
@@ -40,7 +41,8 @@ public class Loan {
 		this.gender = gender;
 		this.customerOccupation = customerOccupation;
 		this.customerIncome = customerIncome;
-		this.date = new Date().toString();
+		this.date = date;
+		this.remaining_amount = remaining_amount;
 		
 
 		if (loanType.equals("personalloan")) {
@@ -54,7 +56,6 @@ public class Loan {
 
 		} else {
 			this.interestRate = 9.20;
-
 		}
 
 	}
@@ -64,7 +65,8 @@ public class Loan {
 			int customerIncome, double loanAmount, String loanType,
 			int CustomerAge) {
 		super();
-		loanFileNumber++;
+		serial++;
+		this.loanFileNumber = serial;
 		this.loanType = loanType;
 		this.loanTenure = loanTenure;
 
@@ -77,7 +79,8 @@ public class Loan {
 		this.customerOccupation = customerOccupation;
 		this.customerIncome = customerIncome;
 		this.date = new Date().toString();
-
+		this.remaining_amount = loanAmount;
+		
 		if (loanType.equals("personalloan")) {
 			this.interestRate = 9.10;
 
@@ -94,6 +97,17 @@ public class Loan {
 
 	}
 
+	
+	
+	public double getRemaining_amount() {
+		return remaining_amount;
+	}
+
+	public void setRemaining_amount(double remaining_amount) {
+		this.remaining_amount = remaining_amount;
+	}
+
+	
 	public String getDate() {
 		return date;
 	}
@@ -102,12 +116,12 @@ public class Loan {
 		this.date = date;
 	}
 
-	public static int getLoanFileNumber() {
+	public int getLoanFileNumber() {
 		return loanFileNumber;
 	}
 
-	public static void setLoanFileNumber(int loanFileNumber) {
-		Loan.loanFileNumber = loanFileNumber;
+	public void setLoanFileNumber(int loanFileNumber) {
+		this.loanFileNumber = loanFileNumber;
 	}
 
 	public String getLoanType() {
@@ -207,9 +221,12 @@ public class Loan {
 	}
 	
 	public double getEMI(){
-		 return 0;
+		 double temp = this.interestRate / 1200 ;
+		 double emi = this.loanAmount * temp * (Math.pow((1 + temp), this.loanTenure)) / (Math.pow((1 + temp), this.loanTenure) - 1);
+		 DecimalFormat df = new DecimalFormat("#.00");
+		 return Double.parseDouble(df.format(emi));
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Loan [loanType=" + loanType + ", loanTenure=" + loanTenure
@@ -218,7 +235,7 @@ public class Loan {
 				+ ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", customerAge=" + customerAge + ", gender=" + gender
 				+ ", customerOccupation=" + customerOccupation
-				+ ", customerIncome=" + customerIncome + ", date=" + date + "]";
+				+ ", customerIncome=" + customerIncome + ", date=" + date
+				+ ", remaining_amount=" + remaining_amount + "]";
 	}
-
 }

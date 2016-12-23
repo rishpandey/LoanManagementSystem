@@ -36,7 +36,7 @@ public class ApplicationServlet extends HttpServlet {
 		try {
 			LoanServices service = ServicesProvider.getBankServices();
 		
-		if (service.application(Loan.getLoanFileNumber(),loan.getFirstName(), loan.getLastName(), loan.getCustomerAge(), loan.getLoanType(),loan.getInterestRate(), loan.getGender(),loan.getCustomerAddress(),loan.getCustomerOccupation(),loan.getCustomerIncome(),loan.getLoanAmount(),loan.getLoanTenure(),loan.getDate(),(String)session.getAttribute("username")))
+		if (service.application(loan,(String)session.getAttribute("username")))
 			getServletContext().getRequestDispatcher("/afterapplicationform.html")
 					.forward(request, response);
 		else {
@@ -45,8 +45,7 @@ public class ApplicationServlet extends HttpServlet {
 			out.print("Invalid Details");
 		}
 		} catch (ServiceNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ServletException();
 		}
 	}
 }

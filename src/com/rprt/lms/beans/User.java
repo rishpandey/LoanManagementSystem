@@ -1,13 +1,13 @@
 package com.rprt.lms.beans;
 
 public class User {
-	String username = null;
-	String password = null;
-	String email = null;
-	String mobile = null;
-	String securityQuestion = null;
-	String answer = null;
-	String newpass = null;
+	private String username = null;
+	private String password = null;
+	private String email = null;
+	private String mobile = null;
+	private String securityQuestion = null;
+	private String answer = null;
+	private String newpass = null;
 	
 	public String getNewpass() {
 		return newpass;
